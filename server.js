@@ -23,6 +23,10 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/item", itemRoute);
 
+app.use("/", (res, req) => {
+    res.send("this is server");
+})
+
 const port = process.env.PORT;
 app.listen(port, () => {
     console.log("server started on, " + port);
