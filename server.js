@@ -23,7 +23,7 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/item", itemRoute);
 
-app.use("/", (res, req) => {
+app.use("/", (req, res) => {
     res.send("this is server");
 })
 
