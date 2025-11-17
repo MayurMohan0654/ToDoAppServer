@@ -4,18 +4,18 @@ const getItems = async (req, res) => {
 	const { username } = req.body;
 	try {
 		const result = await user.findOne({ username });
-		console.log("send" + result);
+		// console.log("send" + result);
 		return res.send({ status: 200, data: result.items });
 	} catch (err) {
 		console.log("error: " + err);
-		res.send({ ststus: 500, err });
+		res.send({ status: 500, err });
 	}
 };
 
 const addItem = async (req, res) => {
 	const { username, task } = req.body;
 	const entity = await user.findOne({ username });
-	console.log(entity);
+	// console.log(entity);
 
 	if (!entity) {
 		return res.send({ status: 404, msg: "User Not Found" });
@@ -26,13 +26,13 @@ const addItem = async (req, res) => {
 				{ $push: { items: { task, done: false } } }
 			);
 			if (result.modifiedCount > 0) {
-				return res.send({ staus: 200, msg: "item added successfully" });
+				return res.send({ status: 200, msg: "item added successfully" });
 			} else {
-				return res.send({ staus: 304, msg: "item not added" });
+				return res.send({ status: 304, msg: "item not added" });
 			}
 		} catch (err) {
 			console.log("error: " + err);
-			return res.send({ ststus: 500, err });
+			return res.send({ status: 500, err });
 		}
 	}
 };
@@ -45,13 +45,13 @@ const removeItem = async (req, res) => {
 			{ $pull: { items: { task: task } } }
 		);
 		if (result.modifiedCount > 0) {
-			res.send({ staus: 200, msg: "item removed successfully" });
+			res.send({ status: 200, msg: "item removed successfully" });
 		} else {
-			res.send({ staus: 304, msg: "item not removed" });
+			res.send({ status: 304, msg: "item not removed" });
 		}
 	} catch (err) {
 		console.log("error: " + err);
-		res.send({ ststus: 500, err });
+		res.send({ status: 500, err });
 	}
 };
 
@@ -62,16 +62,16 @@ const markItem = async (req, res) => {
 			{ username: username, "items.task": task },
 			{ $set: { "items.$.done": true } }
 		);
-		console.log(result);
+		// console.log(result);
 
 		if (result.modifiedCount > 0) {
-			res.send({ staus: 200, msg: "item done successfully" });
+			res.send({ status: 200, msg: "item done successfully" });
 		} else {
-			res.send({ staus: 304, msg: "item not done" });
+			res.send({ status: 304, msg: "item not done" });
 		}
 	} catch (err) {
 		console.log("error: " + err);
-		res.send({ ststus: 500, err });
+		res.send({ status: 500, err });
 	}
 };
 
